@@ -1,23 +1,7 @@
 # -*- coding: utf-8 -*-
-import sys, re
-reload(sys)
-sys.setdefaultencoding('utf-8')
-
+import re
 from bs4 import BeautifulSoup
 from bs4.element import NavigableString
-
-html_doc = """
-<h2>Heading2</h2>
-<p>Texto como viria do TinyMCE. Preciso enfiar um link para o termo Fulano Gonçalves, mas não posso linkar o outro termo que já faz parte de um elemento A</p>
-<p>Nesse parágrafo não posso relinkar <a href="teste" data-hub="1">Fulano Gonçalves</a> porque já faz parte de um link</p>
-<p>Aqui também <a href="teste">não porque Fulano Gonçalves está dentro</a> de um A</p>
-<p>Aqui é mais complexo: <a href="teste">Não posso mexer porque <b>Fulano Gonçalves</b> está dentro dum B que está dentro dum A</a></p>
-<table><tr><td><div><span><b>Esse Fulano Gonçalves tem que retornar</b></span></div></td></tr></table>
-<div><b>Antes Fulano Gonçalves</b><a href="teste.html">está sozinho mas antes do A</a></div>
-<pre><a href="teste.html">Com o A antes, mas no mesmo parent</a> preciso linkar esse Fulano Gonçalves</pre>
-<blockquote><a href="teste.html">Com o A antes, mas no mesmo parent</a> preciso linkar esse Fulano Gonçalves</blockquote>
-<article>FFFulano Gonçalves Fulano Gonçalves Fulano Gonçalvessss Fulano    &nbsp; Gonçalves Fulano    Gonçalves</article>
-"""
 
 def linkify(html_doc, texto_encontrar, link, debug=False):
     soup = BeautifulSoup(html_doc, "html.parser")
@@ -53,8 +37,25 @@ def linkify(html_doc, texto_encontrar, link, debug=False):
     return soup
 
 
-print linkify(html_doc, "Fulano Gonçalves", "/bunda.html", True)
-print linkify(html_doc, "link", "/link.html", True)
+if __name__ == '__main__':
+    import sys
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
 
-# print linkify(html_doc, u"Fulano Gonçalves", {'href':'ostra.html', 'target':'_blank', 'data-hub':1}, True)
-# print linkify(html_doc, u"Bunda Verde", "/000.html")
+    html_doc = """
+    <h2>Heading2</h2>
+    <p>Texto como viria do TinyMCE. Preciso enfiar um link para o termo Fulano Gonçalves, mas não posso linkar o outro termo que já faz parte de um elemento A</p>
+    <p>Nesse parágrafo não posso relinkar <a href="teste" data-hub="1">Fulano Gonçalves</a> porque já faz parte de um link</p>
+    <p>Aqui também <a href="teste">não porque Fulano Gonçalves está dentro</a> de um A</p>
+    <p>Aqui é mais complexo: <a href="teste">Não posso mexer porque <b>Fulano Gonçalves</b> está dentro dum B que está dentro dum A</a></p>
+    <table><tr><td><div><span><b>Esse Fulano Gonçalves tem que retornar</b></span></div></td></tr></table>
+    <div><b>Antes Fulano Gonçalves</b><a href="teste.html">está sozinho mas antes do A</a></div>
+    <pre><a href="teste.html">Com o A antes, mas no mesmo parent</a> preciso linkar esse Fulano Gonçalves</pre>
+    <blockquote><a href="teste.html">Com o A antes, mas no mesmo parent</a> preciso linkar esse Fulano Gonçalves</blockquote>
+    <article>FFFulano Gonçalves Fulano Gonçalves Fulano Gonçalvessss Fulano    &nbsp; Gonçalves Fulano    Gonçalves</article>
+    """
+
+    print linkify(html_doc, "Fulano Gonçalves", "/fulano-goncalves.html", True)
+    # print linkify(html_doc, "link", "/link.html", True)
+    # print linkify(html_doc, u"Fulano Gonçalves", {'href':'ostra.html', 'target':'_blank', 'data-hub':1}, True)
+    # print linkify(html_doc, u"Bunda Verde", "/000.html")
