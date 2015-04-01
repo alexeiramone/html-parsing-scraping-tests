@@ -13,7 +13,7 @@ def linkify(html_doc, texto_encontrar, link, debug=False):
 
     for node in soup.find_all(text=re_texto_encontrar):
         inside_a = 'a' in [n.name for n in node.parents] # Testar com if/break depois
-        print type(node), type(node.parent), node.parent.name, repr(node), inside_a
+        if debug: print type(node), type(node.parent), node.parent.name, repr(node), inside_a
         if not inside_a:
             cool_nodes.add(node.parent)
 
@@ -23,7 +23,7 @@ def linkify(html_doc, texto_encontrar, link, debug=False):
         new_tag = soup.new_tag("a", **link)
 
     new_tag.string = texto_encontrar
-    if debug: print unicode(new_tag)
+    if debug: print 'TAG:', unicode(new_tag)
 
     for sel_node in cool_nodes:
         for sel_child in sel_node.contents:
