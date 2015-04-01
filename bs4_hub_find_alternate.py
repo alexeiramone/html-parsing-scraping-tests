@@ -7,9 +7,10 @@ def linkify(html_doc, texto_encontrar, link, debug=False):
     soup = BeautifulSoup(html_doc, "html.parser")
     cool_nodes = set()
     texto_encontrar = re.sub(r'\s+',' ',texto_encontrar.strip())
-    re_texto_encontrar = re.sub(r'\s+','\\s+',texto_encontrar)
+    re_texto_encontrar = re.sub(r'([\\\.\+\^\$\*\?\[\]\(\)\{\}\|])',r'\\\1',texto_encontrar)
+    re_texto_encontrar = re.sub(r'\s+','\\s+', re_texto_encontrar) # Precisa ser o último
     re_texto_encontrar = re.compile(u'\\b%s\\b' % re_texto_encontrar, flags=re.UNICODE)
-
+    if debug: print 'texto_encontrar:', repr(texto_encontrar), '|', texto_encontrar
 
     for node in soup.find_all(text=re_texto_encontrar):
         inside_a = 'a' in [n.name for n in node.parents] # Testar com if/break depois

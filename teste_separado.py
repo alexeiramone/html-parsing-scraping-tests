@@ -12,3 +12,5 @@ if __name__ == '__main__':
     print linkify(u"<p>Ação às vêzes</p>", "ação", "/teste")
     print linkify(u"<p>Ação às vêzes</p>", "às vezes", "/teste")
     print linkify(u"<p>Ação às vêzes</p>", "às vêzes", "/teste")
+    print linkify(u"<p>Texto fiadaputa por causa do regex</p>", "fia.+", "/teste")
+    print linkify(u"<p>Texto fia.+ por causa do regex</p>", "fia.+", "/teste", True)
