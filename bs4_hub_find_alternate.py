@@ -8,7 +8,7 @@ def linkify(html_doc, texto_encontrar, link, debug=False):
     cool_nodes = set()
     texto_encontrar = re.sub(r'\s+',' ',texto_encontrar.strip())
     re_texto_encontrar = re.sub(r'\s+','\\s+',texto_encontrar)
-    re_texto_encontrar = re.compile(u'\\b%s\\b' % re_texto_encontrar)
+    re_texto_encontrar = re.compile(u'\\b%s\\b' % re_texto_encontrar, flags=re.UNICODE)
 
 
     for node in soup.find_all(text=re_texto_encontrar):
