@@ -4,7 +4,11 @@ from bs4 import BeautifulSoup
 from bs4.element import NavigableString
 
 def linkify(html_doc, texto_encontrar, link, debug=False):
-    soup = BeautifulSoup(html_doc, "html.parser")
+    if type(html_doc) in [str, unicode]:
+        soup = BeautifulSoup(html_doc, "html.parser")
+    else:
+        soup = html_doc
+
     cool_nodes = set()
     texto_encontrar = re.sub(r'\s+',' ',texto_encontrar.strip())
     re_texto_encontrar = re.sub(r'([\\\.\+\^\$\*\?\[\]\(\)\{\}\|])',r'\\\1',texto_encontrar)
@@ -60,3 +64,8 @@ if __name__ == '__main__':
     # print linkify(html_doc, "link", "/link.html", True)
     # print linkify(html_doc, u"Fulano Gonçalves", {'href':'ostra.html', 'target':'_blank', 'data-hub':1}, True)
     # print linkify(html_doc, u"Bunda Verde", "/000.html")
+    
+    x = linkify(html_doc, "Fulano Gonçalves", "/fulano-goncalves.html", True)
+    x = linkify(x, "link", "/link", True)
+
+    print x
