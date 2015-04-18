@@ -53,9 +53,10 @@ class NoodleText(object):
                 self.print_debug('--', type(sel_child), isinstance(sel_child, NavigableString))
                 if isinstance(sel_child, NavigableString):
                     node_replace = re.sub(re_texto_encontrar, unicode(new_tag), sel_child.string)
-                    # node_replace = BeautifulSoup(node_replace, self.parser)
+                    node_replace = BeautifulSoup(node_replace, self.parser)
                     # sel_child.replace_with(node_replace)
-                    sel_child.string = node_replace
+                    # sel_child.string = node_replace
+                    sel_child.replace_with(node_replace)
                     self.print_debug('----', sel_child.string, '--->', node_replace)
 
 
