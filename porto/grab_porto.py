@@ -9,6 +9,9 @@ h = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
 
 url = 'http://corretorportoseguro.com/Index.aspx?corretor={}'
 
+# Em https://corretorportoseguro.com/AreaPortalInstitucional/Contato/Default.aspx?pgn=206894&corretor=1976
+# Esse formulário teoricamente só rola se o ID estiver ativo. Testar
+
 try:
     dataset = pickle.load(open("grab_porto.pickle","rb"))
 except IOError:
