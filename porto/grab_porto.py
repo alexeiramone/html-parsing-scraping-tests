@@ -26,7 +26,16 @@ for id, site in ([(x,url.format(x)) for x in myrange[:200]]):
 
     print site
 
-    r = requests.get(site, headers=h)
+    try:
+        r = requests.get(site, headers=h)
+    except requests.exceptions.ConnectionError, e:
+        print e
+    except Exception, e:
+        raise e
+
+    if r.url != site:
+        print '->', r.url,
+        grab_data['url'] = r.url
 
     grab_data['status_code'] = r.status_code
     print grab_data['status_code'], 
