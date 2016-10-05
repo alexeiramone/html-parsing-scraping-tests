@@ -13,6 +13,8 @@ print 'TOTAL', len(dataset.keys()),
 
 for k,v in dataset.iteritems():
     unique_names.add(v.get('nome',None))
+    if v.has_key('domain'):
+        print v['domain']
 
 print 'UNIQUE_NAMES', len(unique_names), 
 
