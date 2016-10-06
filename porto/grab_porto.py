@@ -20,7 +20,7 @@ except IOError:
     dataset = {}
 
 myrange = list(set(range(1,9000)) - set(dataset.keys()))
-myrange = range(7677,7688)
+# myrange = range(7677,7688)
 
 print len(myrange), myrange[:200]
 
