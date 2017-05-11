@@ -5,11 +5,14 @@
 from glob import glob
 from bs4 import BeautifulSoup
 
+from django.utils import timezone
+from django.utils import dateparse
+
 site = dict(name=None)
 
 stats = dict(articles=0,others=0)
 
-data_default = None
+data_default = None # timezone.now() só depois de carregar com o django
 
 for arq in glob('C:\\Users\Alexei\\Documents\\pousoautorizado\\index*.htm'):
     entry = dict(titulo=None, imagem=None, tags='')
@@ -35,14 +38,15 @@ for arq in glob('C:\\Users\Alexei\\Documents\\pousoautorizado\\index*.htm'):
         entry['titulo'] = soup.h1.text
         entry['subtitulo'] = soup.find('meta', attrs={'name':'description'}).get('content') if soup.find('meta', attrs={'name':'description'}) else None
         post = soup.select('div.entry.clear')
-        entry['data_publicacao'] = soup.find('meta', property='article:published_time').get('content') if soup.find('meta', property='article:published_time') else data_default
-        entry['data_ultima_atualizacao'] = soup.find('meta', property='article:modified_time').get('content') if soup.find('meta', property='article:modified_time') else data_default
+        entry['data_publicacao'] = dateparse.parse_datetime(soup.find('meta', property='article:published_time').get('content')).replace(tzinfo=timezone.utc) if soup.find('meta', property='article:published_time') else data_default
+        entry['data_ultima_atualizacao'] = dateparse.parse_datetime(soup.find('meta', property='article:modified_time').get('content')).replace(tzinfo=timezone.utc) if soup.find('meta', property='article:modified_time') else data_default
         entry['imagem'] = soup.find('meta', property='og:image').get('content') if soup.find('meta', property='og:image') else None
 
         # for x in soup.select('div.post-footer div.categories a'):
         #     print x.text.encode('utf-8')
         # for x in soup.select('div#content div.tags a'):
         #     print x.text.encode('utf-8')
+        # print soup.find('meta', property='article:published_time').get('content'), entry['data_publicacao']
 
         tags_cats = set([x.text for x in soup.select('div#content div.tags a')] + [x.text for x in soup.select('div.post-footer div.categories a')])
 
